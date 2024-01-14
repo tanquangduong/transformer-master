@@ -30,14 +30,17 @@ def get_or_build_tokenizer(config, ds, lang):
         tokenizer = Tokenizer.from_file(str(tokenizer_path))
     return tokenizer
 
+
 def get_ds(config):
-    df_raw = load_dataset('opus_books', f'{config["lang_src"]}-{config["lang_tgt"]}', split='train')
+    ds_raw = load_dataset(
+        "opus_books", f'{config["lang_src"]}-{config["lang_tgt"]}', split="train"
+    )
 
     # Build tokenizer
-    tokenizer_src = get_or_build_tokenizer(config, ds_raw, config['lang_src'])
-    tokenizer_tgt = get_or_build_tokenizer(config, ds_raw, config['lang_tgt'])
+    tokenizer_src = get_or_build_tokenizer(config, ds_raw, config["lang_src"])
+    tokenizer_tgt = get_or_build_tokenizer(config, ds_raw, config["lang_tgt"])
 
     # Keep 90% for training and 10% for validation
-    train_ds_size = int(len(df_raw) * 0.9)
-    val_ds_size = len(df_raw) - train_ds_size
-    train_ds_raw, val_ds_raw = random_split(df_raw, [train_ds_size, val_ds_size])
+    train_ds_size = int(len(ds_raw) * 0.9)
+    val_ds_size = len(ds_raw) - train_ds_size
+    train_ds_raw, val_ds_raw = random_split(ds_raw, [train_ds_size, val_ds_size])
