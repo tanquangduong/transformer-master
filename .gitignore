@@ -1,0 +1,6 @@
+*.pt
+*.json
+runs/
+weights/
+
+wandb/
