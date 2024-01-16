@@ -10,6 +10,8 @@ from tokenizers.models import WordLevel
 from tokenizers.trainers import WordLevelTrainer
 from tokenizers.pre_tokenizers import Whitespace
 
+from tdg_dataset import BilingualDataset
+
 from pathlib import Path
 
 def get_all_sentences(ds, lang):
@@ -34,11 +36,7 @@ def get_or_build_tokenizer(config, ds, lang):
 
 def get_ds(config):
     # load raw dataset
-    ds_raw = load_dataset(
-        f"{config}['datasource']",
-        f"{config['lang_src']}-{config['lang_tgt']}",
-        split="train",
-    )
+    ds_raw = load_dataset(f"{config['datasource']}", f"{config['lang_src']}-{config['lang_tgt']}", split='train')
 
     # Build tokenizer
     tokenizer_src = get_or_build_tokenizer(config, ds_raw, config["lang_src"])
